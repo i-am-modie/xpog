@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Xpog.Entities;
 
 namespace Xpog.Models
 {
@@ -7,6 +8,6 @@ namespace Xpog.Models
         public ExpenseContext(DbContextOptions<ExpenseContext> options) : base(options)
         {}
 
-        public DbSet<ExpenseItem> ExpenseItems { get; set; }
+        public DbSet<Expense> ExpenseItems { get; set; }
     }
 }
