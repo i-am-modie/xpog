@@ -16,6 +16,18 @@
     <Compile Remove="Migrations\20200613175104_initial.Designer.cs" />
     <Compile Remove="Migrations\20200613175218_initial.cs" />
     <Compile Remove="Migrations\20200613175218_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200613175551_initial.cs" />
+    <Compile Remove="Migrations\20200613175551_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200613191411_initial.cs" />
+    <Compile Remove="Migrations\20200613191411_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200613191927_initial.cs" />
+    <Compile Remove="Migrations\20200613191927_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200613192033_initial.cs" />
+    <Compile Remove="Migrations\20200613192033_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200613192152_initial.cs" />
+    <Compile Remove="Migrations\20200613192152_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200613193021_initial.cs" />
+    <Compile Remove="Migrations\20200613193021_initial.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +47,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Middlewares\" />
   </ItemGroup>
 
 
