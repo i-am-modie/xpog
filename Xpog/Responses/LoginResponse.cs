@@ -1,6 +1,5 @@
-using Microsoft.VisualBasic;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+
+using System;
 
 namespace Xpog.Responses
 {
@@ -8,6 +7,6 @@ namespace Xpog.Responses
     {
         public string Username { get; set; }
         public string Token { get; set; }
-        public DateAndTime ExpiryDate { get; set; }
+        public DateTime ExpiryDate { get; set; }
     }
 }

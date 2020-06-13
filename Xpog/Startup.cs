@@ -1,5 +1,6 @@
 namespace Xpog
 {
+    using Ef6CoreForPosgreSQL.Models;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -8,6 +9,7 @@ namespace Xpog
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.IdentityModel.Tokens;
+    using System;
     using System.Text;
     using Xpog.Models;
     using Xpog.Services;
@@ -23,8 +25,10 @@ namespace Xpog
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ExpenseContext>(opt =>
-            opt.UseInMemoryDatabase("ExpenseList"));
+            services.AddMvc();
+
+            services.AddDbContext<ExpenseAppContext>(opt =>
+                opt.UseNpgsql(Configuration.GetConnectionString("DbConnection")));
             services.AddControllers();
             services.AddAuthentication(x =>
               {
@@ -38,8 +42,7 @@ namespace Xpog
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    // IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Jwt:Key"])),
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("33376e95-5a12-439a-8c2d-d18e83a14be4")),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Jwt:Key"])),
 
                     ValidateIssuer = false,
                     ValidateAudience = false,
@@ -48,6 +51,7 @@ namespace Xpog
             });
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IHashingService, HashingService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
