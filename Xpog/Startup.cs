@@ -52,6 +52,7 @@ namespace Xpog
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IHashingService, HashingService>();
+            services.AddScoped<IJWTService, UserJWTService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

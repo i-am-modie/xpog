@@ -20,19 +20,20 @@ namespace Xpog.Services
     {
         LoginResponse Authenticate(string username, string password);
         Task<int> Register(string username, string password);
-        public Task<ActionResult<IEnumerable<User>>> GetAll();
+        Task<ActionResult<IEnumerable<User>>> GetAll();
     }
 
     public class UserService : IUserService
     {
         private IHashingService _hashingService;
         private ExpenseAppContext _context;
+        IJWTService _userJwtService;
 
-        public UserService(IHashingService hashingService, ExpenseAppContext expenseAppContext)
+        public UserService(IHashingService hashingService, ExpenseAppContext expenseAppContext, IJWTService jwtService)
         {
             _hashingService = hashingService;
             _context = expenseAppContext;
-
+            _userJwtService = jwtService;
         }
 
 
@@ -40,7 +41,6 @@ namespace Xpog.Services
         {
             var user = _context.Users.Where(x => x.Username == username).FirstOrDefault();
 
-            // return null if user not found
             if (user == null)
             {
                 throw new Exception("No user with that username");
@@ -50,25 +50,12 @@ namespace Xpog.Services
                 throw new Exception("Invalid credentials");
             }
 
-            // authentication successful so generate jwt token
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("33376e95-5a12-439a-8c2d-d18e83a14be4");
-            var expiryDate = DateTime.UtcNow.AddDays(7);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
-                }),
-                Expires = expiryDate,
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var token = _userJwtService.CreateToken(user.Id);
             var response = new LoginResponse();
 
             response.Username = username;
-            response.Token = tokenHandler.WriteToken(token);
-            response.ExpiryDate = expiryDate;
+            response.Token = token.Token;
+            response.ExpiryDate = token.ExpiryDate;
             return response;
         }
 
