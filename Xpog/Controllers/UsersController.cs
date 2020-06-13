@@ -19,7 +19,7 @@ namespace Xpog.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("authenticate")]
+        [HttpPost("login")]
         public IActionResult Authenticate([FromBody]LoginInputModel model)
         {
             try
