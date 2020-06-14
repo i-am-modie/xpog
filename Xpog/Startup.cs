@@ -59,6 +59,12 @@ namespace Xpog
             {
                 c.TimeZoneInfo = TimeZoneInfo.Local;
                 c.CronExpression = @"10 0 * * *";
+            }); 
+            
+            services.AddCronJob<MonthlyExpensesSupervisorCronJob>(c =>
+            {
+                c.TimeZoneInfo = TimeZoneInfo.Local;
+                c.CronExpression = @"15 0 * * *";
             });
 
 
