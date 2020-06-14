@@ -45,12 +45,24 @@ namespace Xpog.Controllers
 
         // GET: api/CurrentExpenses
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CurrentExpense>>> GetCurrentExpenses()
+        public async Task<ActionResult<IEnumerable<CurrentExpense>>> GetCurrentExpenses(DateTime? startDate, DateTime? endDate)
         {
             var id = GetUserId();
-
-            return await this.UserCurrentExpensesQueryBuilder(id).ToListAsync();
+            var query = this.UserCurrentExpensesQueryBuilder(id);
+            if(startDate.HasValue)
+            {
+                var date = startDate.GetValueOrDefault();
+                query = query.Where(c => DateTime.Compare(date, c.Date) <= 0);
+            }
+            if(endDate.HasValue)
+            {
+                var date = endDate.GetValueOrDefault();
+                query = query.Where(c => DateTime.Compare(date, c.Date) >= 0);
+            }
+            Console.WriteLine(query.ToString());
+            return await query.ToListAsync();
         }
+
 
         // GET: api/CurrentExpenses/5
         [HttpGet("{id}")]
