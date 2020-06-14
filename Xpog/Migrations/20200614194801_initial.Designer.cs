@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Xpog.Migrations
 {
     [DbContext(typeof(ExpenseAppContext))]
-    [Migration("20200613193136_initial")]
+    [Migration("20200614194801_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,7 +56,7 @@ namespace Xpog.Migrations
                     b.Property<int?>("ExpenseDataId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("ExpiryDate")
+                    b.Property<DateTime?>("ExpiryDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("TriggeringDateOfMonth")
@@ -84,7 +84,7 @@ namespace Xpog.Migrations
                     b.Property<int?>("ExpenseDataId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("ExpiryDate")
+                    b.Property<DateTime?>("ExpiryDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<int?>("UserId")

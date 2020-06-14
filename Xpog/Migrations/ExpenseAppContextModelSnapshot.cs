@@ -54,7 +54,7 @@ namespace Xpog.Migrations
                     b.Property<int?>("ExpenseDataId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("ExpiryDate")
+                    b.Property<DateTime?>("ExpiryDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("TriggeringDateOfMonth")
@@ -82,7 +82,7 @@ namespace Xpog.Migrations
                     b.Property<int?>("ExpenseDataId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("ExpiryDate")
+                    b.Property<DateTime?>("ExpiryDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<int?>("UserId")

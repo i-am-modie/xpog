@@ -72,7 +72,7 @@ namespace Xpog.Migrations
                     UserId = table.Column<int>(nullable: true),
                     ExpenseDataId = table.Column<int>(nullable: true),
                     TriggeringDateOfMonth = table.Column<int>(nullable: false),
-                    ExpiryDate = table.Column<DateTime>(nullable: false)
+                    ExpiryDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -101,7 +101,7 @@ namespace Xpog.Migrations
                     ExpenseDataId = table.Column<int>(nullable: true),
                     timeToRepeatInDays = table.Column<int>(nullable: false),
                     daysToTrigger = table.Column<int>(nullable: false),
-                    ExpiryDate = table.Column<DateTime>(nullable: false)
+                    ExpiryDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
