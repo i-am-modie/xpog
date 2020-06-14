@@ -55,7 +55,7 @@ namespace Xpog
             services.AddScoped<IHashingService, HashingService>();
             services.AddScoped<IJWTService, UserJWTService>();
 
-            services.AddCronJob<RepeatableExpenseSupervisorCronJob>(c =>
+            services.AddCronJob<RepeatableExpensesSupervisorCronJob>(c =>
             {
                 c.TimeZoneInfo = TimeZoneInfo.Local;
                 c.CronExpression = @"10 0 * * *";

@@ -10,12 +10,12 @@ using Xpog.Enitities.Expenses;
 
 namespace Xpog.Services.CronJobs
 {
-    public class RepeatableExpenseSupervisorCronJob : CronJobService
+    public class RepeatableExpensesSupervisorCronJob : CronJobService
     {
-        private readonly ILogger <RepeatableExpenseSupervisorCronJob> _logger;
+        private readonly ILogger <RepeatableExpensesSupervisorCronJob> _logger;
 
         IServiceProvider _serviceProvider;
-        public RepeatableExpenseSupervisorCronJob(IScheduleConfig<RepeatableExpenseSupervisorCronJob> config, ILogger<RepeatableExpenseSupervisorCronJob> logger, IServiceProvider serviceProvider)
+        public RepeatableExpensesSupervisorCronJob(IScheduleConfig<RepeatableExpensesSupervisorCronJob> config, ILogger<RepeatableExpensesSupervisorCronJob> logger, IServiceProvider serviceProvider)
          : base(config.CronExpression, config.TimeZoneInfo)
         {
             _serviceProvider = serviceProvider;
@@ -24,20 +24,22 @@ namespace Xpog.Services.CronJobs
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Repeatable Expense Supervisor started");
+            _logger.LogInformation("Repeatable Expense Supervisor: started");
             return base.StartAsync(cancellationToken);
         }
 
         public override Task DoWork(CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"{DateTime.Now:hh:mm:ss} CronJobRESC is working.");
+            _logger.LogInformation("Repeatable Expense Supervisor: working");
             using var scope = _serviceProvider.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ExpenseAppContext>();
 
+            _logger.LogInformation("Repeatable Expense Supervisor: decrementing trigger days");
             var repeatableExpenses = context.RepeatableExpenses.ToList();
             repeatableExpenses.ForEach(re => re.daysToTrigger = re.daysToTrigger - 1);
             context.SaveChanges();
 
+            _logger.LogInformation("Repeatable Expense Supervisor: restarting trigger days");
             var expensesToRestart = context.RepeatableExpenses.Where(c => c.daysToTrigger == 0).ToList();
             expensesToRestart.ForEach(re =>
             {
@@ -53,8 +55,8 @@ namespace Xpog.Services.CronJobs
             });
             context.SaveChanges();
 
-
-            var expensesToRemove = context.RepeatableExpenses.Where(c => c.ExpiryDate.HasValue && DateTime.Compare(DateTime.Now, c.ExpiryDate.GetValueOrDefault()) > 0);
+            _logger.LogInformation("Repeatable Expense Supervisor: removing expired ones");
+            var expensesToRemove = context.RepeatableExpenses.Where(c => c.ExpiryDate.HasValue && DateTime.Compare(DateTime.Now, c.ExpiryDate.GetValueOrDefault()) >= 0);
             context.RepeatableExpenses.RemoveRange(expensesToRemove);
             context.SaveChanges();
 
