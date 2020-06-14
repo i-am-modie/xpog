@@ -65,7 +65,7 @@ namespace Xpog.Services.CronJobs
 
         public override Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("CronJob 3 is stopping.");
+            _logger.LogInformation("Repeatable Expense Supervisor: stopping.");
             return base.StopAsync(cancellationToken);
         }
     }
