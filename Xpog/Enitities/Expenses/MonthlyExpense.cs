@@ -10,6 +10,6 @@ namespace Xpog.Enitities.Expenses
     {
        [Range(1,31)]
        public int TriggeringDateOfMonth { get; set; }
-       public DateTime ExpiryDate { get; set; }
+       public DateTime? ExpiryDate { get; set; }
     }
 }
