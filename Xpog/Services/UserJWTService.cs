@@ -7,7 +7,7 @@ namespace Xpog.Services
 {
     public class UserJWTService : JWTService, IJWTService
     {
-        static int VALIDITY_TIME_IN_MIN = 15;
+        static int VALIDITY_TIME_IN_MIN = 150;
         public UserJWTService() : base(VALIDITY_TIME_IN_MIN) { }
     }
 }
