@@ -66,55 +66,6 @@ namespace Xpog.Controllers
             return repeatableExpense;
         }
 
-        // PUT: api/RepeatableExpenses/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutRepeatableExpense(int id, RepeatableExpenseInputModel repeatableExpenseInput)
-        {
-            var uid = GetUserId();
-            var expenseToModify = await this.UserRepeatableExpensesQueryBuilder(uid).Where(c => c.Id == id).FirstOrDefaultAsync();
-
-            if (expenseToModify == null)
-            {
-                throw new Exception("You don't own any current expense with that id");
-            }
-
-            //     public int timeToRepeatInDays { get; set; }
-            //  public DateTime FirstOccurence { get; set; }
-            // public DateTime? ExpiryDate { get; set; }
-
-            expenseToModify.ExpiryDate = repeatableExpenseInput.ExpiryDate;
-            expenseToModify.daysToTrigger = repeatableExpenseInput.FirstOccurence.HasValue ? (repeatableExpenseInput.FirstOccurence.GetValueOrDefault() - DateTime.Now).Days : repeatableExpenseInput.TimeToRepeatInDays;
-            expenseToModify.timeToRepeatInDays = repeatableExpenseInput.TimeToRepeatInDays;
-            expenseToModify.ExpenseData = new ExpenseData
-            {
-                Amount = repeatableExpenseInput.Amount,
-                Description = repeatableExpenseInput.Description
-            };
-
-
-            _context.Entry(expenseToModify).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RepeatableExpenseExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
         // POST: api/RepeatableExpenses
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
@@ -131,7 +82,8 @@ namespace Xpog.Controllers
                 {
                     Amount = repeatableExpenseInput.Amount,
                     Description = repeatableExpenseInput.Description
-                }
+                },
+                User = user
             };
 
             _context.RepeatableExpenses.Add(repeatableExpense);
