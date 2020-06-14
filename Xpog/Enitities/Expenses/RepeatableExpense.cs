@@ -11,7 +11,7 @@ namespace Xpog.Enitities.Expenses
         [Range(0,365)]
         public int timeToRepeatInDays { get; set; }
         public int daysToTrigger { get; set; }
-        public DateTime ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
 
 
     }

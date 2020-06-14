@@ -59,7 +59,6 @@ namespace Xpog.Controllers
                 var date = endDate.GetValueOrDefault();
                 query = query.Where(c => DateTime.Compare(date, c.Date) >= 0);
             }
-            Console.WriteLine(query.ToString());
             return await query.ToListAsync();
         }
 

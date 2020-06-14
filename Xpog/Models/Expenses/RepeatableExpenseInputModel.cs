@@ -7,8 +7,8 @@ namespace Xpog.Models.Expenses
     {
         [Required]
         [Range(0, 365)]
-        public int timeToRepeatInDays { get; set; }
-        public DateTime FirstOccurence { get; set; }
-        public DateTime ExpiryDate { get; set; }
+        public int TimeToRepeatInDays { get; set; }
+        public DateTime? FirstOccurence { get; set; }
+        public DateTime? ExpiryDate { get; set; }
     }
 }
