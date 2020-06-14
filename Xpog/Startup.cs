@@ -13,6 +13,7 @@ namespace Xpog
     using System.Text;
     using Xpog.Models;
     using Xpog.Services;
+    using Xpog.Services.CronJobs;
 
     public class Startup
     {
@@ -29,6 +30,7 @@ namespace Xpog
 
             services.AddDbContext<ExpenseAppContext>(opt =>
                 opt.UseNpgsql(Configuration.GetConnectionString("DbConnection")));
+
             services.AddControllers();
             services.AddAuthentication(x =>
               {
@@ -49,10 +51,17 @@ namespace Xpog
 
                 };
             });
-
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IHashingService, HashingService>();
             services.AddScoped<IJWTService, UserJWTService>();
+
+            services.AddCronJob<RepeatableExpenseSupervisorCronJob>(c =>
+            {
+                c.TimeZoneInfo = TimeZoneInfo.Local;
+                c.CronExpression = @"10 0 * * *";
+            });
+
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
