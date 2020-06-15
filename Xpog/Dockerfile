@@ -19,4 +19,5 @@ RUN dotnet publish "Xpog.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Xpog.dll"]
+# ENTRYPOINT ["dotnet", "Xpog.dll"]
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet Colors.API.dll
