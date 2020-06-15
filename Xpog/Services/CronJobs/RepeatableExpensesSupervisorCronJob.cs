@@ -1,4 +1,5 @@
 ﻿using Ef6CoreForPosgreSQL.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -33,30 +34,40 @@ namespace Xpog.Services.CronJobs
             _logger.LogInformation("Repeatable Expense Supervisor: working");
             using var scope = _serviceProvider.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ExpenseAppContext>();
+           
 
             _logger.LogInformation("Repeatable Expense Supervisor: decrementing trigger days");
             var repeatableExpenses = context.RepeatableExpenses.ToList();
-            repeatableExpenses.ForEach(re => re.daysToTrigger = re.daysToTrigger - 1);
+            repeatableExpenses.ForEach(re =>
+            {
+                var daysToTrigger = re.daysToTrigger;
+                re.daysToTrigger = daysToTrigger - 1;
+            }    );
+
             context.SaveChanges();
 
             _logger.LogInformation("Repeatable Expense Supervisor: restarting trigger days");
-            var expensesToRestart = context.RepeatableExpenses.Where(c => c.daysToTrigger == 0).ToList();
+            var expensesToRestart = context.RepeatableExpenses.Include(c => c.ExpenseData).Include(c => c.User).Where(c => c.daysToTrigger <= 0).ToList();
+            
             expensesToRestart.ForEach(re =>
             {
-                var user = context.Users.Where(u => u.Id == re.User.Id).FirstOrDefault();
+                var expense = re.ExpenseData;
+                var user = re.User;
+                re.daysToTrigger = re.timeToRepeatInDays;
                 context.CurrentExpenses.Add(new CurrentExpense
                 {
                     Date = DateTime.Now,
-                    ExpenseData = re.ExpenseData,
+                    ExpenseData = expense,
                     User = user
                 });
 
-                re.daysToTrigger = re.timeToRepeatInDays;
+    
+                context.SaveChanges();
             });
-            context.SaveChanges();
+           
 
             _logger.LogInformation("Repeatable Expense Supervisor: removing expired ones");
-            var expensesToRemove = context.RepeatableExpenses.Where(c => c.ExpiryDate.HasValue && DateTime.Compare(DateTime.Now, c.ExpiryDate.GetValueOrDefault()) >= 0);
+            var expensesToRemove = context.RepeatableExpenses.Where(c => c.ExpiryDate.HasValue && DateTime.Compare(DateTime.Now, c.ExpiryDate.Value) >= 0).ToList();
             context.RepeatableExpenses.RemoveRange(expensesToRemove);
             context.SaveChanges();
 
