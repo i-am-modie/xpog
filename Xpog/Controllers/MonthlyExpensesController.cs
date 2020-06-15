@@ -10,10 +10,12 @@ using Xpog.Enitities.Expenses;
 using System.Security.Claims;
 using Xpog.Models.Expenses;
 using Xpog.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Xpog.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class MonthlyExpensesController : ControllerBase
     {
