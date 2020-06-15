@@ -12,6 +12,7 @@ namespace Xpog
     using System;
     using System.Text;
     using Xpog.Models;
+    using Xpog.Models.Configuration;
     using Xpog.Services;
     using Xpog.Services.CronJobs;
 
@@ -26,14 +27,17 @@ namespace Xpog
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            var jwtOptions = new UserJwtOptions();
+            var dbOptions = new DbOptions();
+            Configuration.GetSection(UserJwtOptions.Position).Bind(jwtOptions);
+            Configuration.GetSection(DbOptions.Position).Bind(dbOptions);
+
 
             services.AddDbContext<ExpenseAppContext>(opt =>
-                opt.UseNpgsql(Configuration.GetConnectionString("DbConnection")));
+                opt.UseNpgsql(dbOptions.GetConnectionString())
+                );
 
             services.AddControllers();
-            var jwtOptions = new UserJwtOptions();
-            Configuration.GetSection(UserJwtOptions.Position).Bind(jwtOptions);
             services.AddAuthentication(x =>
               {
                   x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
