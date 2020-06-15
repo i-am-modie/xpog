@@ -1,4 +1,5 @@
 ﻿using Ef6CoreForPosgreSQL.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -38,7 +39,7 @@ namespace Xpog.Services.CronJobs
             var currentDay = currentDate.Day;
             var countOfDaysInCurrentMonth = DateTime.DaysInMonth(currentDate.Year, currentDate.Month);
 
-            IQueryable<MonthlyExpense> query = context.MonthlyExpenses;
+            IQueryable<MonthlyExpense> query = context.MonthlyExpenses.Include(c => c.ExpenseData).Include(c => c.User);
 
             if (currentDay == countOfDaysInCurrentMonth)
             {
@@ -64,7 +65,7 @@ namespace Xpog.Services.CronJobs
             context.SaveChanges();
 
             _logger.LogInformation("Monthly Expense Supervisor: removing expired ones");
-            var expensesToRemove = context.MonthlyExpenses.Where(c => c.ExpiryDate.HasValue && DateTime.Compare(DateTime.Now, c.ExpiryDate.GetValueOrDefault()) >= 0);
+            var expensesToRemove = context.MonthlyExpenses.Where(c => c.ExpiryDate.HasValue && DateTime.Compare(DateTime.Now, c.ExpiryDate.Value) >= 0).ToList();
             context.MonthlyExpenses.RemoveRange(expensesToRemove);
             context.SaveChanges();
 
@@ -77,7 +78,7 @@ namespace Xpog.Services.CronJobs
             return base.StopAsync(cancellationToken);
         }
     }
-    
-    
-    
+
+
+
 }
