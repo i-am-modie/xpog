@@ -61,6 +61,7 @@ namespace Xpog
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IHashingService, HashingService>();
             services.AddScoped<IJWTService, UserJWTService>();
+            services.Configure<UserJwtOptions> (Configuration.GetSection(UserJwtOptions.Position));
 
             services.AddCronJob<RepeatableExpensesSupervisorCronJob>(c =>
             {
