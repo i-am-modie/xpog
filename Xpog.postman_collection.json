@@ -1,0 +1,492 @@
+{
+	"info": {
+		"_postman_id": "0f2addff-6846-4b4b-a99d-bc1fb56716c9",
+		"name": "Xpog",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/users",
+			"item": [
+				{
+					"name": "POST /users/register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Username\": \"test3\",\n\t\"Password\": \"Test1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/users/register",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /users/login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4f393c78-ddeb-43dc-9ae7-361525968480",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Username\": \"test2\",\n\t\"Password\": \"Test1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/users/login",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/users/",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "/CurrentExpenses",
+			"item": [
+				{
+					"name": "GET /CurrentExpenses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/currentexpenses",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"currentexpenses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /CurrentExpenses/data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/CurrentExpenses?startDate=2020-06-12T23:38:16.685&endDate=2020-06-13T23:38:16.685",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"CurrentExpenses"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2020-06-12T23:38:16.685"
+								},
+								{
+									"key": "endDate",
+									"value": "2020-06-13T23:38:16.685"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /CurrentExpenses/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Description\": \"Current Expense\",\r\n    \"Amount\": 5000,\r\n    \"Date\": \"2020-06-12T23:38:16.685\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/currentexpenses",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"currentexpenses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /CurrentExpenses/:id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Description\": \"Current Expense\",\r\n    \"Amount\": 5001,\r\n    \"Date\": \"2020-06-12T23:38:16.685\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/currentexpenses/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"currentexpenses",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /CurrentExpenses/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/currentexpenses/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"currentexpenses",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "/MonthlyExpenses",
+			"item": [
+				{
+					"name": "GET /MonthlyExpenses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/MonthlyExpenses",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"MonthlyExpenses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /MonthlyExpenses",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Description\": \"Current Expense\",\r\n    \"Amount\": 5000,\r\n    \"_ExpiryDate\": \"2020-06-20T23:38:16.685\",\r\n    \"TriggeringDayOfMonth\": 3\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/MonthlyExpenses",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"MonthlyExpenses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /MonthlyExpenses/:id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Description\": \"Current Expense\",\r\n    \"Amount\": 5000,\r\n    \"ExpiryDate\": \"2020-06-20T23:38:16.685\",\r\n    \"TriggeringDayOfMonth\": 3\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/MonthlyExpenses/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"MonthlyExpenses",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /MonthlyExpenses/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/MonthlyExpenses/2",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"MonthlyExpenses",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "84dab79b-682b-45de-976f-429b76ed3b8a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f676ec9d-cf12-4b0b-9cd2-964fd2226cfa",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "/RepeatableExpenses",
+			"item": [
+				{
+					"name": "GET /RepeatableExpenses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/RepeatableExpenses",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"RepeatableExpenses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /RepeatableExpenses",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Description\": \"Current Expense\",\r\n    \"Amount\": 5000,\r\n    \"FirstOccurence\": \"2020-06-20T23:38:16.685\",\r\n    \"ExpiryDate\": \"2020-06-21T23:38:16.685\",\r\n    \"TimeToRepeatInDays\": 3\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/RepeatableExpenses",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"RepeatableExpenses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /MonthlyExpenses/:id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Description\": \"Current Expense\",\r\n    \"Amount\": 5002,\r\n    \"FirstOccurence\": \"2020-06-20T23:38:16.685\",\r\n    \"ExpiryDate\": \"2020-06-21T23:38:16.685\",\r\n    \"TimeToRepeatInDays\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/RepeatableExpenses/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"RepeatableExpenses",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /MonthlyExpenses/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/RepeatableExpenses/5",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"RepeatableExpenses",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f2c7c015-5c5c-40ee-a2e8-9c7124ea31f7",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "2c4add9f-c926-432d-b2e7-0b6655f25a72",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "18fcc026-cb35-42de-bcf4-7b02536650d8",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "586ce25c-8729-4db2-8dde-ec96e60c38f3",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
