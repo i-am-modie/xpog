@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: qwerty
+    ports: 
+      - 2731:5432
+    volumes:
+      - ./database:/var/lib/postgresql/data
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 2317:8080
+  xpog:
+    build:
+      context: ./
+      dockerfile: ./Xpog/Dockerfile
+    ports:
+       - 5000:80
+    links:
+        - db
+    depends_on:
+        - db
