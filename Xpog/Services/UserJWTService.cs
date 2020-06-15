@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Xpog.Services
 {
-    public class UserJWTService : JWTService, IJWTService
+    public class UserJWTService : JWTService
     {
         static int VALIDITY_TIME_IN_MIN = 150;
         public UserJWTService() : base(VALIDITY_TIME_IN_MIN) { }

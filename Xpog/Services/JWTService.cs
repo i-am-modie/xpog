@@ -25,7 +25,7 @@ namespace Xpog.Services
     {
         JWTToken CreateToken(int userId);
     }
-    public abstract class JWTService
+    public abstract class JWTService: IJWTService
     {
         int _tokenValidityTimeInMinutes;
         public JWTService(int tokenValidityTimeInMinutes)
