@@ -10,7 +10,7 @@ namespace Xpog.Models.Expenses
     {
         [Required]
         [Range(1, 31)]
-        public int TriggeringDateOfMonth { get; set; }
+        public int TriggeringDayOfMonth { get; set; }
 
         public DateTime? ExpiryDate { get; set; }
     }

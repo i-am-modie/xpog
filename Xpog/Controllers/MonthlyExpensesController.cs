@@ -81,7 +81,7 @@ namespace Xpog.Controllers
             }
 
             expenseToModify.ExpiryDate = monthlyExpenseInput.ExpiryDate;
-            expenseToModify.TriggeringDateOfMonth = monthlyExpenseInput.TriggeringDateOfMonth;
+            expenseToModify.TriggeringDateOfMonth = monthlyExpenseInput.TriggeringDayOfMonth;
             expenseToModify.ExpenseData = new ExpenseData
             {
                 Amount = monthlyExpenseInput.Amount,
@@ -120,7 +120,7 @@ namespace Xpog.Controllers
             var expenseToAdd = new MonthlyExpense
             {
                 ExpiryDate = monthlyExpenseInput.ExpiryDate,
-                TriggeringDateOfMonth = monthlyExpenseInput.TriggeringDateOfMonth,
+                TriggeringDateOfMonth = monthlyExpenseInput.TriggeringDayOfMonth,
                 ExpenseData = new ExpenseData
                 {
                     Amount = monthlyExpenseInput.Amount,
