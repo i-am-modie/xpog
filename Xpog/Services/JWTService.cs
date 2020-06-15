@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Xpog.Models;
 
 namespace Xpog.Services
 {
@@ -27,16 +29,18 @@ namespace Xpog.Services
     }
     public abstract class JWTService: IJWTService
     {
-        int _tokenValidityTimeInMinutes;
-        public JWTService(int tokenValidityTimeInMinutes)
+        private int _tokenValidityTimeInMinutes;
+        private readonly Byte[] _key;
+        public JWTService(int tokenValidityTimeInMinutes, Byte[] key)
         {
             _tokenValidityTimeInMinutes = tokenValidityTimeInMinutes;
+            _key = key;
         }
 
         public JWTToken CreateToken(int userId)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("33376e95-5a12-439a-8c2d-d18e83a14be4");
+           
             var expiryDate = DateTime.UtcNow.AddMinutes(_tokenValidityTimeInMinutes);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -45,7 +49,7 @@ namespace Xpog.Services
                     new Claim(ClaimTypes.Name, userId.ToString())
                 }),
                 Expires = expiryDate,
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(_key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
 

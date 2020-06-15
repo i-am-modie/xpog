@@ -32,6 +32,8 @@ namespace Xpog
                 opt.UseNpgsql(Configuration.GetConnectionString("DbConnection")));
 
             services.AddControllers();
+            var jwtOptions = new UserJwtOptions();
+            Configuration.GetSection(UserJwtOptions.Position).Bind(jwtOptions);
             services.AddAuthentication(x =>
               {
                   x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -44,7 +46,8 @@ namespace Xpog
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Jwt:Key"])),
+                    //IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Jwt:Key"])),
+                    IssuerSigningKey = new SymmetricSecurityKey(jwtOptions.getByteKey()),
 
                     ValidateIssuer = false,
                     ValidateAudience = false,
