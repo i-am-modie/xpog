@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +13,7 @@ namespace Xpog.Models
         public string Key { get; set; }
         public int ValidityTimeInMin { get; set; }
 
-        public Byte[] getByteKey()
+        public Byte[] GetByteKey()
         {
             return Encoding.ASCII.GetBytes(Key);
         }

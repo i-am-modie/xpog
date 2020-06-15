@@ -9,6 +9,6 @@ namespace Xpog.Services
 {
     public class UserJWTService : JWTService
     {
-        public UserJWTService(IOptions<UserJwtOptions> options) : base(options.Value.ValidityTimeInMin, options.Value.getByteKey()) { }
+        public UserJWTService(IOptions<UserJwtOptions> options) : base(options.Value.ValidityTimeInMin, options.Value.GetByteKey()) { }
     }
 }

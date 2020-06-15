@@ -47,7 +47,7 @@ namespace Xpog
                 {
                     ValidateIssuerSigningKey = true,
                     //IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Jwt:Key"])),
-                    IssuerSigningKey = new SymmetricSecurityKey(jwtOptions.getByteKey()),
+                    IssuerSigningKey = new SymmetricSecurityKey(jwtOptions.GetByteKey()),
 
                     ValidateIssuer = false,
                     ValidateAudience = false,
