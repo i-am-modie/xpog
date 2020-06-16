@@ -10,6 +10,7 @@ WORKDIR /src
 COPY ["Xpog/Xpog.csproj", "Xpog/"]
 RUN dotnet restore "Xpog/Xpog.csproj"
 COPY . .
+COPY ["Xpog/appsettings.docker.json", "Xpog/appsettings.json"]
 WORKDIR "/src/Xpog"
 RUN dotnet build "Xpog.csproj" -c Release -o /app/build
 
